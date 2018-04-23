@@ -51,7 +51,7 @@ gui.add(pointLight, 'intensity', 0, 10);
 gui.add(pointLight.position, 'y', 0, 5);
 gui.add(pointLight.position, 'x', -20, 20);
 gui.add(pointLight.position, 'z', -20, 20);
-//gui.add(scene.getObjectByName('boxGrid-1'), 'amount', 1, 10);
+//gui.add(boxGrid, 'amount', 1, 10);
 //gui.add(boxGrid, 'separationMultiplier', -1,3);
 //gui.add(plane, 'size', -40,40);
 
@@ -68,14 +68,7 @@ gui.add(pointLight.position, 'z', -20, 20);
  scene.add(boxGrid);
 
 
- function updateBoxGrid(){
-   scene.remove(boxGrid)
-   boxGrid = getBoxGrid(amount, 1.5)
-   scene.add(boxGrid)
-   amount += 1;
 
- }
-//setInterval(updateBoxGrid, 3000)
 
     //camera parameters: field of view in degrees, aspect ratio, near, far clipping planes.
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight,1,1000);
@@ -224,55 +217,49 @@ function getPointLight(intensity){
 // API API API -----------------------------
 //AJAX initiation
 
- function updateProfile(){
-    // Create a variable to refer to our request object:
-    var xmlhttp;
-
-    if (window.XMLHttpRequest){
-        // code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp=new XMLHttpRequest();
-    }else{
-        // code for IE6, IE5
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange = function getData(data){
-       var ajaxData = $.ajax({
-        url: "https://data.cityofnewyork.us/resource/waf7-5gvc.json",
-        type: "GET",
-        data: {
-          "$limit" : 5000,
-          "$$app_token" : "QXp9nz0h9bc88qBwOCK2NADet"
-        }
-    }).done(function(data) {
-      alert("Retrieved " + data.length + " records from the dataset!");
-      console.log(data);
-    });
-    debugger;
-    return data;
-    }
-}
+//  function updateProfile(){
+//     // Create a variable to refer to our request object:
+//     var xmlhttp;
+//
+//     if (window.XMLHttpRequest){
+//         // code for IE7+, Firefox, Chrome, Opera, Safari
+//         xmlhttp=new XMLHttpRequest();
+//     }else{
+//         // code for IE6, IE5
+//         xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+//     }
+//
+// }
 
 
 
 
 // NYC DATA API
-// function getData(data){
-//    var ajaxData = $.ajax({
-//     url: "https://data.cityofnewyork.us/resource/waf7-5gvc.json",
-//     type: "GET",
-//     data: {
-//       "$limit" : 5000,
-//       "$$app_token" : "QXp9nz0h9bc88qBwOCK2NADet"
-//     }
-// }).done(function(data) {
-//   alert("Retrieved " + data.length + " records from the dataset!");
-//   console.log(data);
-// });
-// debugger;
-// return data;
-// }
+function getData(data){
+   var ajaxData = $.ajax({
+    url: "https://data.cityofnewyork.us/resource/waf7-5gvc.json",
+    type: "GET",
+    data: {
+      "$limit" : 5000,
+      "$$app_token" : "QXp9nz0h9bc88qBwOCK2NADet"
+    }
+}).done(function(data) {
+  alert("Retrieved " + data.length + " records from the dataset!");
+  console.log(data);
+});
+debugger;
+return data;
+}
 
+//Creates new Boxes = called by button on HTML
+function updateBoxGrid(){
+  scene.remove(boxGrid)
+  boxGrid = getBoxGrid(amount, 1.5)
+  scene.add(boxGrid)
+  amount += 30;
 
+}
+setInterval(updateBoxGrid, 3000)
 
 
 
