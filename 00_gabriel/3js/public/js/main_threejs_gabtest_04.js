@@ -1,12 +1,8 @@
 //Lynda - Create a "init" function to keep it organized.
 //GOAL: Show the NYC water consumption using 3D olympic swimming pools https://data.cityofnewyork.us/resource/waf7-5gvc.json
 //exp: olympic swimming pool = 660.000 galons
-
-
 function init(){
 
-
-var amount = 10;
   //Create Scene, Camera and Render
   //using "Perspective" camera (one of several types of camera)
   var scene = new THREE.Scene();
@@ -24,11 +20,11 @@ var amount = 10;
   // var box = getBox(1, 1, 1);
 
   //calling plane
-
-  var plane = getPlane(100);
+  var amount = 10;
+  var plane = getPlane(30);
   var sphere = getSphere(0.05);
   var pointLight = getPointLight(1);
-  var boxGrid =  getBoxGrid(40,3);
+  var boxGrid =  getBoxGrid(amount ,3);
 
 
 
@@ -37,8 +33,7 @@ var amount = 10;
 
   //NAME OBJECTS - allows to call specific objects with "get" commands.
   plane.name = 'plane-1';
-  boxGrid.name = 'boxGrid-1';
-
+  boxGrid.name = 'boxGrid-1'
   //ROTATE PLANE = can't use "plane.rotation.x= 90;" because THREEJS uses Radians instead of degrees. For this will use the "math" object.
   plane.rotation.x = Math.PI/2;
   //BOX POSITION: makes its position half its height, so it keeps on the grid no matter what size.
@@ -78,7 +73,6 @@ gui.add(pointLight.position, 'z', -20, 20);
     //camera parameters: field of view in degrees, aspect ratio, near, far clipping planes.
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight,1,1000);
 //move the camera by 5, so it is in a different position than the cube (BoxGeometry)
-camera.name = 'camera-1';
 camera.position.x = 1;
 camera.position.y = 2;
   camera.position.z = 5;
@@ -159,9 +153,8 @@ function getBoxGrid(amount, separationMultiplier) {
   var group = new THREE.Group();
 
 
-
   for (var  i=0; i<amount;i++){
-    var obj = getBox(2,0.2,1);
+    var obj = getBox(2,0.5,1);
     obj.position.x = i * separationMultiplier;
     obj.position.y = obj.geometry.parameters.height/2;
     group.add(obj);
@@ -189,24 +182,6 @@ return group;
 //LOOP RENDER AND ANIMATION + OrbitControl Library "controls". Don't forget to update on requestAnimationFrame.
 function update(renderer, scene, camera, controls){
  renderer.render(scene, camera,);
-
- //Creates new Boxes = called by button on HTML
-
-   var boxGrid = scene.getObjectByName('boxGrid-1')
-   boxGrid.position.y +=0.001;
-   //boxGrid.rotation.y +=Math.sin(1)
-
-
-
-//  var box = scene.getObjectByName('box-1');
-//  box.rotation.y += 0.01;
-//   box.rotation.z += 0.01;
-// var pointLight = scene.getObjectByName('light-1');
-//
-//   pointLight.position.x +=0.01;
-//   pointLight.position.z +=0.01;
-
-
 
  //orbit controls
  controls.update();
@@ -258,35 +233,6 @@ function getPointLight(intensity){
 
 
 
-// initialize: function(){
-//   init.getWaterData();
-// },
-//
-// getWaterData: function(){
-//   console.log("Getting NYC Water Data");
-//     var nycWaterURL = "https://data.cityofnewyork.us/resource/waf7-5gvc.json";
-//     var nycAPIKey = "QXp9nz0h9bc88qBwOCK2NADet";
-//      $.ajax({
-//        url: "nycWaterURL",
-//        type: "GET",
-//        error: function(err){
-//          console.log(err);
-//        },
-//        data: {
-//          "$limit" : 5000,
-//        }
-//        success: function(data){
-//          console.log("Got the NYC Water data");
-//          console.log(data);
-//          var waterData = data.response.docs;
-//          console.log(waterData);
-//        }
-//
-//
-//
-//      })
-//
-// }
 
 // NYC DATA API
 function getData(data){
@@ -301,20 +247,20 @@ function getData(data){
   alert("Retrieved " + data.length + " records from the dataset!");
   console.log(data);
 });
-
+debugger;
 return data;
 }
 
+//Creates new Boxes = called by button on HTML
+function updateBoxGrid(){
+  scene.remove(boxGrid)
+  boxGrid = getBoxGrid(amount, 1.5)
+  scene.add(boxGrid)
+  amount += 30;
 
-var getWater = function(data) {
+}
+setInterval(updateBoxGrid, 3000)
 
-	for (var i = 0; i < data.length; i++) {
-		if (data[i] === '2016') {
-			console.log(data[i]);
-		}
-
-	}
-};
 
 
 //added "var scene" to "init();" so I can see the parameters on the browser inspector

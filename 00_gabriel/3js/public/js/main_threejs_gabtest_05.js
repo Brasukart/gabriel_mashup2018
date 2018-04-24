@@ -1,12 +1,8 @@
 //Lynda - Create a "init" function to keep it organized.
 //GOAL: Show the NYC water consumption using 3D olympic swimming pools https://data.cityofnewyork.us/resource/waf7-5gvc.json
 //exp: olympic swimming pool = 660.000 galons
-
-
 function init(){
 
-
-var amount = 10;
   //Create Scene, Camera and Render
   //using "Perspective" camera (one of several types of camera)
   var scene = new THREE.Scene();
@@ -24,11 +20,11 @@ var amount = 10;
   // var box = getBox(1, 1, 1);
 
   //calling plane
-
+  // var amount = 10;
   var plane = getPlane(100);
   var sphere = getSphere(0.05);
   var pointLight = getPointLight(1);
-  var boxGrid =  getBoxGrid(40,3);
+  var boxGrid =  getBoxGrid(40 ,3);
 
 
 
@@ -154,11 +150,11 @@ function getPlane(size){
         return mesh;
 }
 
-function getBoxGrid(amount, separationMultiplier) {
+function getBoxGrid(amount,separationMultiplier) {
   //GROUP = objects container
   var group = new THREE.Group();
 
-
+//var amount = this.amount;
 
   for (var  i=0; i<amount;i++){
     var obj = getBox(2,0.2,1);
